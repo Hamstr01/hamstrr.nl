@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" class="text-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body::before {
+      content: "";
+      background: url('https://r2.guns.lol/14194fc6-29b1-4b5c-ac7e-60ef06dbbcf3.gif') no-repeat center center fixed;
+      background-size: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -2;
+    }
+    body::after {
+      content: "";
+      background: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+    body {
+      cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23175'), auto;
+    }
+    a,
+    button,
+    .hover\:scale-110:hover,
+    .hover\:opacity-80:hover {
+      cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23165'), pointer;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+  <div class="backdrop-blur-md bg-black/10 border border-white/30 rounded-2xl p-8 flex flex-col items-center shadow-lg max-w-md w-full">
+    <h1 class="text-white text-6xl font-bold mb-4">404</h1>
+    <p class="text-white text-xl mb-6">Oops! The page you are looking for does not exist.</p>
+    <a href="/" class="px-6 py-3 bg-green-600 rounded-lg text-white font-semibold hover:bg-green-700 transition duration-300">
+      Go Back Home
+    </a>
+  </div>
+</body>
+</html>
