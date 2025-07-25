@@ -35,17 +35,10 @@
   <meta property="og:type" content="website" />
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen px-4">
-
   <div class="backdrop-blur-md bg-black/10 border border-white/30 rounded-2xl p-8 flex flex-col items-center shadow-lg w-full max-w-sm">
-
     <img src="https://r2.guns.lol/6bc8374c-3b46-4c10-a42e-2c8c918a96aa.webp" alt="Avatar" class="w-24 h-24 rounded-full shadow-lg border-2 border-white mb-4 transition-transform hover:scale-105" />
-
     <h1 class="text-white text-3xl font-bold mb-2">hamstrr</h1>
-
-    <!-- Socials + Spotify Shared Container -->
     <div class="backdrop-blur-md bg-black/60 border border-white/20 rounded-xl px-6 py-4 shadow-md w-full">
-      
-      <!-- Social Icons -->
       <div class="flex justify-center space-x-4 mb-4">
         <a href="https://last.fm/user/Hamstr01" aria-label="Last.fm" class="hover:opacity-80">
           <img src="https://i.imgur.com/ahkmc0h.png" alt="Last.fm" class="w-8 h-8" />
@@ -63,11 +56,7 @@
           <img src="https://i.imgur.com/Vk6eoDV.png" alt="Discord" class="w-8 h-8" />
         </a>
       </div>
-
-      <!-- Divider -->
       <hr class="border-t border-white/20 my-4" />
-
-      <!-- Spotify Now Playing -->
       <div class="flex justify-center">
         <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31dsaaabxf2snceykma5ixkm376a&redirect=true" target="_blank" rel="noopener noreferrer">
           <img 
@@ -79,18 +68,14 @@
         </a>
       </div>
     </div>
-
   </div>
-
   <script>
     const img = document.getElementById('spotify-widget');
     const baseSrc = 'https://spotify-github-profile.kittinanx.com/api/view?uid=31dsaaabxf2snceykma5ixkm376a&cover_image=true&theme=novatorem&show_offline=false&background_color=121212&interchange=false&bar_color=53b14f&bar_color_cover=false';
-
     setInterval(() => {
       const timestamp = new Date().getTime();
       img.src = `${baseSrc}&_=${timestamp}`;
     }, 4000);
   </script>
-
 </body>
 </html>
