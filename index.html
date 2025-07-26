@@ -36,7 +36,6 @@
     .hover\:opacity-80:hover {
       cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23165'), pointer;
     }
-    /* Fade in from blur animation */
     .fade-in-blur {
       opacity: 0;
       filter: blur(16px);
@@ -80,14 +79,11 @@
     </div>
   </div>
   <script>
-    // Fade in the main content from blur
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         document.querySelector('.fade-in-blur').classList.add('visible');
       }, 100);
     });
-
-    // Spotify widget refresh
     const img = document.getElementById('spotify-widget');
     const baseSrc = 'https://spotify-github-profile.kittinanx.com/api/view?uid=31dsaaabxf2snceykma5ixkm376a&cover_image=true&theme=novatorem&show_offline=true&background_color=121212&interchange=false&bar_color=53b14f&bar_color_cover=false';
     setInterval(() => {
