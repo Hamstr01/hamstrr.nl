@@ -129,6 +129,60 @@
       border: 2px solid #555;
       margin-bottom: 0.5rem;
     }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border: 2px solid #6b6f73;
+      background: #e2e4e7;
+      box-shadow: inset -1px -1px 2px #fff, inset 1px 1px 2px #888d92;
+    }
+
+    /* Last.fm Widget Styles */
+    .lastfm-widget .track-box {
+      border: 2px solid #6b6f73;
+      background: #e9edf1;
+      font-size: 0.75rem;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: monospace;
+      min-height: 56px;
+    }
+
+    .lastfm-widget .track-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .lastfm-widget .track-info {
+      flex-grow: 1;
+    }
+
+    .lastfm-widget .track-info strong {
+      font-weight: bold;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    .lastfm-widget .track-info .status {
+      display: block;
+      font-style: italic;
+      font-size: 0.7rem;
+      color: #444;
+    }
+
+    .lastfm-widget img {
+      width: 48px;
+      height: 48px;
+      border: 1px solid #333;
+      object-fit: cover;
+      background: #ccc;
+    }
   </style>
 </head>
 <body>
@@ -136,8 +190,7 @@
   <div class="window">
     <div class="title-bar">
       <div class="title-left">
-        <img src="https://i.imgur.com/GwPq1uS.png" alt="icon">
-        hamstrr :: profile
+        > hamstrr :: profile
       </div>
       <div class="title-controls">
         <div>_</div>
@@ -167,10 +220,11 @@
       </a>
     </div>
 
-    <div class="panel text-center">
+    <div class="panel">
+      <h2>> About</h2>
       <img src="https://i.imgur.com/gXP5oUp.png" alt="Avatar" class="avatar mx-auto">
-      <h1 class="text-lg font-bold mb-2">hamstrr</h1>
-      <p class="text-xs leading-relaxed">
+      <h1 class="text-lg text-center font-bold mb-2">hamstrr</h1>
+      <p class="text-xs text-center leading-relaxed">
         hi<br>
         im hamter<br>
         thats it<br>
@@ -178,17 +232,57 @@
       </p>
     </div>
 
-    <div class="panel">
-      <h2>Now Playing</h2>
-      <a href="https://spotify-github-profile.kittinanx.com/api/view?uid=31dsaaabxf2snceykma5ixkm376a&redirect=true" target="_blank">
-        <img 
-          src="https://spotify-github-profile.kittinanx.com/api/view?uid=31dsaaabxf2snceykma5ixkm376a&cover_image=true&theme=default&show_offline=true&background_color=f3f5f7&interchange=false&bar_color=222&bar_color_cover=false"
-          alt="Spotify Now Playing"
-          class="mx-auto border border-gray-600"
-        >
-      </a>
+    <!-- Last.fm Widget Panel with API integration -->
+    <div class="panel lastfm-widget">
+      <h2>> Last.fm</h2>
+      <div id="lastfm-track" class="track-box">
+        <span>Loading…</span>
+      </div>
     </div>
+    <!-- End Last.fm Widget Panel -->
+
   </div>
 
+  <script>
+    async function fetchLastFM() {
+      try {
+        const apiKey = "13ff6f8eddf54fc46ce36cb267bb6d9b";
+        const user = "Hamstr01";
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=1`;
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
+
+        // Defensive checks
+        if (!data?.recenttracks?.track?.length) throw new Error("No track data found");
+
+        const track = data.recenttracks.track[0];
+        const name = track?.name ?? "Unknown";
+        const artist = track?.artist?.["#text"] ?? "Unknown";
+        const album = track?.album?.["#text"] ?? "";
+        const img = track?.image?.length ? track.image[track.image.length-1]["#text"] : "";
+        const nowPlaying = track?.["@attr"]?.nowplaying;
+
+        const container = document.getElementById("lastfm-track");
+        container.innerHTML = `
+          <div class="track-content">
+            <div class="track-info">
+              <strong>${name}</strong> by ${artist}<br>
+              <span class="status">${nowPlaying ? "listening now!" : "last played"}</span>
+              ${album ? `<div class="album">Album: ${album}</div>` : ""}
+            </div>
+            ${img ? `<img src="${img}" alt="Album Art">` : ""}
+          </div>
+        `;
+      } catch (err) {
+        console.error("Error fetching Last.fm:", err);
+        document.getElementById("lastfm-track").innerHTML =
+          "<span>Could not load track. (See console for details.)</span>";
+      }
+    }
+
+    fetchLastFM();
+  </script>
 </body>
 </html>
