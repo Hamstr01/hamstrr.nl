@@ -138,7 +138,6 @@
       box-shadow: inset -1px -1px 2px #fff, inset 1px 1px 2px #888d92;
     }
 
-    /* Last.fm Widget Styles */
     .lastfm-widget .track-box {
       border: 2px solid #6b6f73;
       background: #e9edf1;
@@ -232,14 +231,12 @@
       </p>
     </div>
 
-    <!-- Last.fm Widget Panel with API integration -->
     <div class="panel lastfm-widget">
       <h2>> Last.fm</h2>
       <div id="lastfm-track" class="track-box">
         <span>Loading…</span>
       </div>
     </div>
-    <!-- End Last.fm Widget Panel -->
 
   </div>
 
@@ -254,7 +251,6 @@
         if (!res.ok) throw new Error("Network error");
         const data = await res.json();
 
-        // Defensive checks
         if (!data?.recenttracks?.track?.length) throw new Error("No track data found");
 
         const track = data.recenttracks.track[0];
