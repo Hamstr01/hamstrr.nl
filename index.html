@@ -9,22 +9,23 @@
   <style>
     body {
       font-family: 'Orbitron', sans-serif;
-      background: #d7dbe0 url("https://www.transparenttextures.com/patterns/grid-me.png");
-      color: #111;
+      background: #181920 url("https://www.transparenttextures.com/patterns/grid-me.png");
+      color: #e2e4e7;
+      transition: background 0.3s, color 0.3s;
     }
 
     .window {
-      background: #f3f5f7;
-      border: 2px solid #6b6f73;
-      box-shadow: inset -2px -2px 4px #ffffff, inset 2px 2px 4px #888d92;
+      background: #23262b;
+      border: 2px solid #44484d;
+      box-shadow: inset -2px -2px 4px #101114, inset 2px 2px 4px #22252a;
       margin: 2rem auto;
       width: 90%;
       max-width: 780px;
     }
 
     .title-bar {
-      background: linear-gradient(180deg, #404348, #2c2f33);
-      color: #d7e2f5;
+      background: linear-gradient(180deg, #24272c, #181a20);
+      color: #b8c3d0;
       font-size: 0.75rem;
       font-weight: bold;
       padding: 0.25rem 0.5rem;
@@ -52,17 +53,19 @@
     .title-controls div {
       width: 18px;
       height: 18px;
-      border: 1px solid #111;
-      background: linear-gradient(180deg, #cfd3d7, #9fa4a8);
+      border: 1px solid #222;
+      background: linear-gradient(180deg, #51565b, #2c2f33);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.7rem;
       cursor: pointer;
       user-select: none;
+      color: #d7e2f5;
+      transition: background 0.2s;
     }
     .title-controls div:hover {
-      background: linear-gradient(180deg, #fefefe, #c5c9ce);
+      background: linear-gradient(180deg, #3b3d42, #222328);
     }
     .title-controls .close {
       color: #fff;
@@ -73,7 +76,7 @@
     }
 
     .nav {
-      background: #444;
+      background: #23262b;
       border-bottom: 2px solid #111;
       display: flex;
       justify-content: center;
@@ -85,15 +88,17 @@
       letter-spacing: 2px;
     }
     .nav a {
-      color: #d7e2f5;
+      color: #b8c3d0;
       text-decoration: none;
       padding: 0.25rem 0.5rem;
       display: flex;
       align-items: center;
       gap: 0.25rem;
+      border-radius: 4px;
+      transition: background 0.2s;
     }
     .nav a:hover {
-      background: #222;
+      background: #181920;
     }
 
     .nav.socials {
@@ -108,39 +113,41 @@
     }
 
     .panel {
-      border: 2px solid #6b6f73;
-      background: linear-gradient(180deg, #f9fafc 0%, #bcc1c8 100%);
+      border: 2px solid #44484d;
+      background: linear-gradient(180deg, #23262b 0%, #181920 100%);
       margin: 0.75rem;
       padding: 0.75rem;
-      box-shadow: inset -1px -1px 3px #ffffff, inset 1px 1px 3px #888d92;
+      box-shadow: inset -1px -1px 3px #181a20, inset 1px 1px 3px #181a20;
     }
     .panel h2 {
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-bottom: 0.5rem;
-      color: #2b2e32;
-      border-bottom: 1px solid #666;
+      color: #b8c3d0;
+      border-bottom: 1px solid #333;
     }
 
     .panel img.avatar {
       width: 96px;
       height: 96px;
-      border: 2px solid #555;
+      border: 2px solid #333;
       margin-bottom: 0.5rem;
+      background: #222;
     }
 
     .badge {
       display: inline-block;
       padding: 0.25rem 0.5rem;
-      border: 2px solid #6b6f73;
-      background: #e2e4e7;
-      box-shadow: inset -1px -1px 2px #fff, inset 1px 1px 2px #888d92;
+      border: 2px solid #44484d;
+      background: #23262b;
+      box-shadow: inset -1px -1px 2px #181a20, inset 1px 1px 2px #22252a;
+      color: #b8c3d0;
     }
 
     .lastfm-widget .track-box {
-      border: 2px solid #6b6f73;
-      background: #e9edf1;
+      border: 2px solid #44484d;
+      background: #23262b;
       font-size: 0.75rem;
       padding: 0.5rem;
       display: flex;
@@ -148,6 +155,7 @@
       justify-content: space-between;
       font-family: monospace;
       min-height: 56px;
+      color: #b8c3d0;
     }
 
     .lastfm-widget .track-content {
@@ -166,13 +174,14 @@
       font-weight: bold;
       font-size: 0.8rem;
       letter-spacing: 1px;
+      color: #d64242;
     }
 
     .lastfm-widget .track-info .status {
       display: block;
       font-style: italic;
       font-size: 0.7rem;
-      color: #444;
+      color: #b8c3d0;
     }
 
     .lastfm-widget img {
@@ -180,7 +189,7 @@
       height: 48px;
       border: 1px solid #333;
       object-fit: cover;
-      background: #ccc;
+      background: #181a20;
     }
   </style>
 </head>
