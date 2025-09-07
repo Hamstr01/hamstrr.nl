@@ -291,8 +291,8 @@
           "<span>Could not load track. (See console for details.)</span>";
       }
     }
-
     fetchLastFM();
+    setInterval(fetchLastFM, 5000);
   </script>
 </body>
 </html>
