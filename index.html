@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hamstrr</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: url("https://i.imgur.com/kMkcdYw.jpeg") right center fixed;
+  background-size: 110%;
+  color: #111;
+  overflow: hidden;
+  height: 100vh;
+  transition: background-position 0.1s ease-out;
+}
+
+.window {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  width: 480px;
+  min-width: 240px;
+  min-height: 120px;
+  overflow: hidden;
+}
+
+.title-bar {
+  background: rgba(255, 255, 255, 0.2);
+  color: #111;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+  cursor: grab;
+}
+.title-bar:active { cursor: grabbing; }
+
+.title-controls { display: flex; gap: 0.25rem; }
+.title-controls div {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.6);
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  border-radius: 4px;
+}
+.title-controls div:hover { background: rgba(255,255,255,0.8); box-shadow: 0 0 6px rgba(0,0,0,0.2); }
+.title-controls .close {
+  background: linear-gradient(180deg, #ff4444, #aa1111);
+  border: 1px solid #ff2222;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(255, 50, 50, 0.6);
+}
+
+.panel { padding: 0.75rem; height: calc(100% - 40px); box-sizing: border-box; display: flex; flex-direction: column; }
+.panel h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; color: #111; border-bottom: 1px solid rgba(0,0,0,0.15); }
+
+.socials { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; justify-content: center; }
+.socials a {
+  display: flex; align-items: center; gap: 0.25rem;
+  font-size: 0.75rem; text-decoration: none; color: #111;
+  background: rgba(255,255,255,0.2); padding: 0.25rem 0.5rem; border-radius: 6px;
+  backdrop-filter: blur(6px) saturate(160%); -webkit-backdrop-filter: blur(6px) saturate(160%);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.socials a:hover { box-shadow: 0 0 8px rgba(255,255,255,0.7); transform: translateY(-1px); }
+.socials img { width: 16px; height: 16px; }
+
+.lastfm-widget .track-box {
+  border: 1px solid rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.2);
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: #111;
+  font-family: monospace;
+  border-radius: 8px;
+  backdrop-filter: blur(6px) saturate(160%);
+  -webkit-backdrop-filter: blur(6px) saturate(160%);
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.lastfm-widget .track-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.lastfm-widget .track-content img {
+  flex-shrink: 0;
+  width: 20%;
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.lastfm-widget .track-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  word-wrap: break-word;
+}
+
+.resizer { width: 12px; height: 12px; background: rgba(0,0,0,0.2); position: absolute; right: 2px; bottom: 2px; cursor: se-resize; border-radius: 3px; }
+
+.video-container { width: 100%; height: 100%; overflow: hidden; border-radius: 8px; }
+.video-container iframe { width: 100%; height: 100%; border: none; }
+</style>
+</head>
+<body>
+
+<div class="window" id="profile-window" style="top: 60px; left: 60px; z-index: 1;">
+  <div class="title-bar">
+    <div>> hamstrr :: profile</div>
+    <div class="title-controls"><div class="close">X</div></div>
+  </div>
+  <div class="panel">
+    <div class="socials">
+      <a href="https://www.tiktok.com/@hamstrrrrrr"><img src="https://i.imgur.com/qcciIUp.png" alt=""> TikTok</a>
+      <a href="https://www.youtube.com/@SE4.productions"><img src="https://i.imgur.com/sstmY3m.png" alt=""> YouTube</a>
+      <a href="https://steamcommunity.com/id/hamstrr"><img src="https://i.imgur.com/ytL2ZKn.png" alt=""> Steam</a>
+      <a href="https://www.discord.com/users/1262468528250818590"><img src="https://i.imgur.com/Vk6eoDV.png" alt=""> Discord</a>
+      <a href="https://last.fm/user/Hamstr01"><img src="https://i.imgur.com/ahkmc0h.png" alt=""> Last.fm</a>
+      <a href="https://www.discogs.com/user/hamterrrrr/collection"><img src="https://i.imgur.com/W9d3kN3.png" alt=""> Discogs</a>
+    </div>
+    <h2>> About</h2>
+    <h1 class="text-lg font-bold mb-2">hamstrr</h1>
+    <p class="text-xs leading-relaxed">
+      > be me<br>
+      > hamter<br>
+      > say hi<br>
+      > say bye
+    </p>
+  </div>
+  <div class="resizer"></div>
+</div>
+
+<div class="window" id="lastfm-window" style="top: 200px; left: 400px; z-index: 1;">
+  <div class="title-bar">
+    <div>> hamstrr :: last.fm</div>
+    <div class="title-controls"><div class="close">X</div></div>
+  </div>
+  <div class="panel lastfm-widget">
+    <h2>> Last.fm</h2>
+    <div id="lastfm-track" class="track-box"><span>Loading…</span></div>
+  </div>
+  <div class="resizer"></div>
+</div>
+
+<div class="window" id="youtube-window" style="top: 400px; left: 200px; width: 360px; z-index: 1;">
+  <div class="title-bar">
+    <div>> hamstrr :: YouTube</div>
+    <div class="title-controls"><div class="close">X</div></div>
+  </div>
+  <div class="panel">
+    <div class="video-container" id="youtube-video">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+  <div class="resizer"></div>
+</div>
+
+<script>
+let topZ = 1;
+
+document.addEventListener("mousemove", e => {
+  const { innerWidth, innerHeight } = window;
+  const x = (e.clientX / innerWidth - 0.5) * 40;
+  const y = (e.clientY / innerHeight - 0.5) * 40;
+  document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
+});
+
+function makeDraggable(windowEl) {
+  const bar = windowEl.querySelector(".title-bar");
+  let offsetX, offsetY, isDragging = false;
+  bar.addEventListener("mousedown", e => {
+    isDragging = true;
+    offsetX = e.clientX - windowEl.offsetLeft;
+    offsetY = e.clientY - windowEl.offsetTop;
+    windowEl.style.zIndex = ++topZ;
+  });
+  document.addEventListener("mousemove", e => {
+    if (!isDragging) return;
+    windowEl.style.left = e.clientX - offsetX + "px";
+    windowEl.style.top = e.clientY - offsetY + "px";
+  });
+  document.addEventListener("mouseup", () => { isDragging = false; });
+}
+
+function makeResizable(windowEl) {
+  const resizer = windowEl.querySelector(".resizer");
+  let startX, startY, startWidth, startHeight, isResizing = false;
+  resizer.addEventListener("mousedown", e => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = parseInt(document.defaultView.getComputedStyle(windowEl).width, 10);
+    startHeight = parseInt(document.defaultView.getComputedStyle(windowEl).height, 10);
+    windowEl.style.zIndex = ++topZ;
+    e.preventDefault();
+  });
+  document.addEventListener("mousemove", e => {
+    if (!isResizing) return;
+    const newWidth = startWidth + (e.clientX - startX);
+    const newHeight = startHeight + (e.clientY - startY);
+    windowEl.style.width = newWidth + "px";
+    windowEl.style.height = newHeight + "px";
+    if(windowEl.id === "lastfm-window") adjustLastFMFontSize();
+  });
+  document.addEventListener("mouseup", () => { isResizing = false; });
+}
+
+function adjustLastFMFontSize() {
+  const container = document.getElementById("lastfm-track");
+  const width = container.offsetWidth;
+  const fontSize = Math.min(20, Math.max(10, width * 0.04));
+  container.querySelector(".track-info")?.style.setProperty("font-size", fontSize + "px");
+}
+
+["profile-window","lastfm-window","youtube-window"].forEach(id => {
+  const el = document.getElementById(id);
+  makeDraggable(el);
+  makeResizable(el);
+});
+
+async function fetchLastFM() {
+  try {
+    const apiKey = "13ff6f8eddf54fc46ce36cb267bb6d9b";
+    const user = "Hamstr01";
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=1`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Network error");
+    const data = await res.json();
+    if (!data?.recenttracks?.track?.length) throw new Error("No track data found");
+
+    const track = data.recenttracks.track[0];
+    const name = track?.name ?? "Unknown";
+    const artist = track?.artist?.["#text"] ?? "Unknown";
+    const album = track?.album?.["#text"] ?? "";
+    const img = track?.image?.length ? track.image[track.image.length-1]["#text"] : "";
+    const nowPlaying = track?.["@attr"]?.nowplaying;
+    const container = document.getElementById("lastfm-track");
+    container.innerHTML = `
+      <div class="track-content">
+        ${img ? `<img src="${img}" alt="Album Art">` : ""}
+        <div class="track-info">
+          <strong>${name}</strong> by ${artist}<br>
+          <span class="status">${nowPlaying ? "listening now!" : "last played"}</span>
+          ${album ? `<div class="album">Album: ${album}</div>` : ""}
+        </div>
+      </div>
+    `;
+    adjustLastFMFontSize();
+  } catch (err) {
+    console.error("Error fetching Last.fm:", err);
+    document.getElementById("lastfm-track").innerHTML = "<span>Could not load track. (See console for details.)</span>";
+  }
+}
+
+fetchLastFM();
+setInterval(fetchLastFM, 5000);
+
+const ytVideos = [
+  "https://www.youtube.com/embed/3X2TE2tjIf8?autoplay=1&mute=1&modestbranding=1&rel=0",
+  "https://www.youtube.com/embed/g-3btgU9c40?autoplay=1&mute=1&modestbranding=1&rel=0"
+];
+document.querySelector("#youtube-video iframe").src = ytVideos[Math.floor(Math.random() * ytVideos.length)];
+</script>
+</body>
+</html>
