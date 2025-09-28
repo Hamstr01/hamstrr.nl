@@ -1,50 +1,149 @@
 <!DOCTYPE html>
-<html lang="en" class="text-white">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 - Page Not Found</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body::before {
-      content: "";
-      background: url('https://r2.guns.lol/14194fc6-29b1-4b5c-ac7e-60ef06dbbcf3.gif') no-repeat center center fixed;
-      background-size: cover;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      z-index: -2;
-    }
-    body::after {
-      content: "";
-      background: rgba(0, 0, 0, 0.7);
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      z-index: -1;
-    }
-    body {
-      cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23175'), auto;
-    }
-    a,
-    button,
-    .hover\:scale-110:hover,
-    .hover\:opacity-80:hover {
-      cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23165'), pointer;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hamstrr :: 404</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<style>
+html, body {
+  cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85612'), auto;
+}
+a { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), pointer; }
+textarea, input[type="text"], input[type="password"] { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), text; }
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: url("https://i.imgur.com/kMkcdYw.jpeg") right center fixed;
+  background-size: 110%;
+  color: #111;
+  overflow: hidden;
+  height: 100vh;
+  transition: background-position 0.1s ease-out;
+}
+
+.window {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  min-width: 240px;
+  min-height: 120px;
+  overflow: hidden;
+}
+
+.title-bar {
+  background: rgba(255, 255, 255, 0.2);
+  color: #111;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+  cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), pointer;
+}
+.title-bar:active { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), grabbing; }
+
+.title-controls { display: flex; gap: 0.25rem; }
+.title-controls div {
+  width: 18px; height: 18px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.6);
+  color: #111;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; cursor: pointer; user-select: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  border-radius: 4px;
+}
+.title-controls div:hover { background: rgba(255,255,255,0.8); box-shadow: 0 0 6px rgba(0,0,0,0.2); }
+.title-controls .close {
+  background: linear-gradient(180deg, #ff4444, #aa1111);
+  border: 1px solid #ff2222;
+  color: #fff; font-weight: bold;
+  box-shadow: 0 0 8px rgba(255, 50, 50, 0.6);
+}
+
+.panel { padding: 0.75rem; height: calc(100% - 40px); box-sizing: border-box; display: flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; }
+.panel h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+.panel p { font-size: 0.9rem; margin-bottom: 1rem; }
+
+.resizer { width: 12px; height: 12px; background: rgba(0,0,0,0.2); position: absolute; right: 2px; bottom: 2px; cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), se-resize; border-radius: 3px; }
+</style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen px-4 text-center">
-  <div class="backdrop-blur-md bg-black/10 border border-white/30 rounded-2xl p-8 flex flex-col items-center shadow-lg max-w-md w-full">
-    <h1 class="text-white text-6xl font-bold mb-4">404</h1>
-    <p class="text-white text-xl mb-6">Oops! The page you are looking for does not exist.</p>
-    <a href="/" class="px-6 py-3 bg-green-600 rounded-lg text-white font-semibold hover:bg-green-700 transition duration-300">
-      Go Back Home
-    </a>
+<body>
+
+<div class="window" id="error-window" style="top: 200px; left: 200px; width:500px; height:300px; z-index: 1;">
+  <div class="title-bar">
+    <div>> hamstrr :: error</div>
+    <div class="title-controls"><div class="close">X</div></div>
   </div>
+  <div class="panel">
+    <h1>> 404 :: Not Found</h1>
+    <p>The page you’re looking for doesn’t exist.</p>
+    <a href="https://hamstrr.nl" class="px-4 py-2 bg-white/30 rounded-lg shadow hover:shadow-lg hover:bg-white/50 transition">Go Home</a>
+  </div>
+  <div class="resizer"></div>
+</div>
+
+<script>
+let topZ = 1;
+
+document.addEventListener("mousemove", e => {
+  const { innerWidth, innerHeight } = window;
+  const x = (e.clientX / innerWidth - 0.5) * 40;
+  const y = (e.clientY / innerHeight - 0.5) * 40;
+  document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
+});
+
+function makeDraggable(windowEl) {
+  const bar = windowEl.querySelector(".title-bar");
+  let offsetX, offsetY, isDragging = false;
+  bar.addEventListener("mousedown", e => {
+    isDragging = true;
+    offsetX = e.clientX - windowEl.offsetLeft;
+    offsetY = e.clientY - windowEl.offsetTop;
+    windowEl.style.zIndex = ++topZ;
+  });
+  document.addEventListener("mousemove", e => {
+    if (!isDragging) return;
+    windowEl.style.left = e.clientX - offsetX + "px";
+    windowEl.style.top = e.clientY - offsetY + "px";
+  });
+  document.addEventListener("mouseup", () => { isDragging = false; });
+}
+
+function makeResizable(windowEl) {
+  const resizer = windowEl.querySelector(".resizer");
+  let startX, startY, startWidth, startHeight, isResizing = false;
+  resizer.addEventListener("mousedown", e => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = parseInt(document.defaultView.getComputedStyle(windowEl).width, 10);
+    startHeight = parseInt(document.defaultView.getComputedStyle(windowEl).height, 10);
+    windowEl.style.zIndex = ++topZ;
+    e.preventDefault();
+  });
+  document.addEventListener("mousemove", e => {
+    if (!isResizing) return;
+    const newWidth = startWidth + (e.clientX - startX);
+    const newHeight = startHeight + (e.clientY - startY);
+    windowEl.style.width = newWidth + "px";
+    windowEl.style.height = newHeight + "px";
+  });
+  document.addEventListener("mouseup", () => { isResizing = false; });
+}
+
+makeDraggable(document.getElementById("error-window"));
+makeResizable(document.getElementById("error-window"));
+</script>
 </body>
 </html>
