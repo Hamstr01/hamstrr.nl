@@ -10,19 +10,61 @@
 html, body {
   cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85612'), auto;
 }
+
 a { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), pointer; }
 textarea, input[type="text"], input[type="password"] { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), text; }
 
 body {
   font-family: 'Orbitron', sans-serif;
   background: url("https://i.imgur.com/kMkcdYw.jpeg") right center fixed;
-  background-size: 110%;
+  background-size: cover;
   color: #111;
-  overflow: hidden;
-  height: 100vh;
+  overflow: auto;
+  min-height: 100vh;
   transition: background-position 0.1s ease-out;
 }
 
+@media (max-width: 768px) {
+  body {
+    background-size: cover;
+    background-position: center center !important;
+    overflow: auto;
+    min-height: 100vh;
+  }
+  .window {
+    position: static !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 1rem 0 0 0;
+    left: 0 !important;
+    top: 0 !important;
+    border-radius: 0.5rem !important;
+  }
+  .panel {
+    padding: 0.75rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .resizer, .title-controls .close {
+    display: none !important;
+  }
+  .title-bar {
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+    font-size: 1rem !important;
+    padding: 0.7rem 0.7rem !important;
+  }
+  .video-container {
+    min-height: 180px !important;
+    height: 40vw !important;
+    max-height: 200px !important;
+  }
+  #notes-text {
+    font-size: 1rem !important;
+    min-height: 90px !important;
+  }
+}
 .window {
   position: absolute;
   background: rgba(255, 255, 255, 0.25);
@@ -113,7 +155,7 @@ body {
 
 .lastfm-widget .track-content img {
   flex-shrink: 0;
-  width: 20%;
+  width: 20vw;
   max-width: 120px;
   height: auto;
   border-radius: 4px;
@@ -128,8 +170,7 @@ body {
   word-wrap: break-word;
 }
 
-.resizer { width: 12px; height: 12px; background: rgba(0,0,0,0.2); position: absolute; right: 2px; bottom: 2px; cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), se-resize; border-radius: 3px; }
-
+.resizer { width: 12px; height: 12px; background: rgba(0,0,0,0.2); position: absolute; right: 2px; bottom: 2px; cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), se-resize; border-radius: 4px; }
 .video-container { width: 100%; height: 100%; overflow: hidden; border-radius: 8px; }
 .video-container iframe { width: 100%; height: 100%; border: none; display: block; }
 </style>
@@ -193,9 +234,9 @@ body {
   <div class="panel" style="padding:0.5rem; display:flex; flex-direction:column; height:100%;">
     <textarea id="notes-text" 
     placeholder="Write something..." 
-    style="flex:1; width:100%; resize:none; border:none;     background:rgba(255,255,255,0.2); 
+    style="flex:1; width:100%; resize:none; border:none; background:rgba(255,255,255,0.2); 
          color:#111; padding:0.5rem; border-radius:6px; backdrop-filter:blur(6px) saturate(160%);
-         -webkit-backdrop-filter:blur(6px) saturate(160%); font-family:monospace; font-size:0.8rem;">
+         -webkit-backdrop-filter:blur(6px) saturate(160%); font-family:monospace; font-size:0.8rem; min-height:70px;">
 ♡♡
 whovr u r 
 ur cool
@@ -209,56 +250,71 @@ u can type here btw
 <script>
 let topZ = 1;
 
-document.addEventListener("mousemove", e => {
-  const { innerWidth, innerHeight } = window;
-  const x = (e.clientX / innerWidth - 0.5) * 40;
-  const y = (e.clientY / innerHeight - 0.5) * 40;
-  document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
-});
-
-function makeDraggable(windowEl) {
-  const bar = windowEl.querySelector(".title-bar");
-  let offsetX, offsetY, isDragging = false;
-  bar.addEventListener("mousedown", e => {
-    isDragging = true;
-    offsetX = e.clientX - windowEl.offsetLeft;
-    offsetY = e.clientY - windowEl.offsetTop;
-    windowEl.style.zIndex = ++topZ;
-  });
-  document.addEventListener("mousemove", e => {
-    if (!isDragging) return;
-    windowEl.style.left = e.clientX - offsetX + "px";
-    windowEl.style.top = e.clientY - offsetY + "px";
-  });
-  document.addEventListener("mouseup", () => { isDragging = false; });
+// Only enable drag/resize on non-mobile devices
+function isMobile() {
+  return window.innerWidth <= 768;
 }
 
-function makeResizable(windowEl) {
-  const resizer = windowEl.querySelector(".resizer");
-  let startX, startY, startWidth, startHeight, isResizing = false;
-  resizer.addEventListener("mousedown", e => {
-    isResizing = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startWidth = parseInt(document.defaultView.getComputedStyle(windowEl).width, 10);
-    startHeight = parseInt(document.defaultView.getComputedStyle(windowEl).height, 10);
-    windowEl.style.zIndex = ++topZ;
-    e.preventDefault();
-  });
+if (!isMobile()) {
   document.addEventListener("mousemove", e => {
-    if (!isResizing) return;
-    const newWidth = startWidth + (e.clientX - startX);
-    const newHeight = startHeight + (e.clientY - startY);
-    windowEl.style.width = newWidth + "px";
-    windowEl.style.height = newHeight + "px";
-    if(windowEl.id === "lastfm-window") adjustLastFMFontSize();
-    if(windowEl.id === "youtube-window") adjustYouTubeSize();
+    const { innerWidth, innerHeight } = window;
+    const x = (e.clientX / innerWidth - 0.5) * 40;
+    const y = (e.clientY / innerHeight - 0.5) * 40;
+    document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
   });
-  document.addEventListener("mouseup", () => { isResizing = false; });
+
+  function makeDraggable(windowEl) {
+    const bar = windowEl.querySelector(".title-bar");
+    let offsetX, offsetY, isDragging = false;
+    bar.addEventListener("mousedown", e => {
+      isDragging = true;
+      offsetX = e.clientX - windowEl.offsetLeft;
+      offsetY = e.clientY - windowEl.offsetTop;
+      windowEl.style.zIndex = ++topZ;
+    });
+    document.addEventListener("mousemove", e => {
+      if (!isDragging) return;
+      windowEl.style.left = e.clientX - offsetX + "px";
+      windowEl.style.top = e.clientY - offsetY + "px";
+    });
+    document.addEventListener("mouseup", () => { isDragging = false; });
+  }
+
+  function makeResizable(windowEl) {
+    const resizer = windowEl.querySelector(".resizer");
+    let startX, startY, startWidth, startHeight, isResizing = false;
+    resizer.addEventListener("mousedown", e => {
+      isResizing = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startWidth = parseInt(document.defaultView.getComputedStyle(windowEl).width, 10);
+      startHeight = parseInt(document.defaultView.getComputedStyle(windowEl).height, 10);
+      windowEl.style.zIndex = ++topZ;
+      e.preventDefault();
+    });
+    document.addEventListener("mousemove", e => {
+      if (!isResizing) return;
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+      windowEl.style.width = newWidth + "px";
+      windowEl.style.height = newHeight + "px";
+      if(windowEl.id === "lastfm-window") adjustLastFMFontSize();
+      if(windowEl.id === "youtube-window") adjustYouTubeSize();
+    });
+    document.addEventListener("mouseup", () => { isResizing = false; });
+  }
+
+  ["profile-window","lastfm-window","youtube-window","notes-window"].forEach(id => {
+    const el = document.getElementById(id);
+    makeDraggable(el);
+    makeResizable(el);
+  });
 }
 
+// Responsive font size for LastFM box
 function adjustLastFMFontSize() {
   const container = document.getElementById("lastfm-track");
+  if (!container) return;
   const width = container.offsetWidth;
   const fontSize = Math.min(20, Math.max(10, width * 0.04));
   container.querySelector(".track-info")?.style.setProperty("font-size", fontSize + "px");
@@ -266,14 +322,14 @@ function adjustLastFMFontSize() {
 
 function adjustYouTubeSize() {
   const container = document.querySelector("#youtube-video iframe");
+  if (!container || !container.parentElement) return;
   container.style.width = container.parentElement.offsetWidth + "px";
   container.style.height = container.parentElement.offsetHeight + "px";
 }
 
-["profile-window","lastfm-window","youtube-window","notes-window"].forEach(id => {
-  const el = document.getElementById(id);
-  makeDraggable(el);
-  makeResizable(el);
+window.addEventListener("resize", () => {
+  adjustLastFMFontSize();
+  adjustYouTubeSize();
 });
 
 async function fetchLastFM() {
