@@ -1,87 +1,226 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vidora Movie Search & Player</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vidora — Search & Play (no API key)</title>
   <style>
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background: #f6f7fb;
-      margin: 0;
-      padding: 20px;
-      color: #111;
-    }
-    h1 { text-align: center; margin-bottom: 20px; }
-    .search-box {
-      display: flex;
-      gap: 10px;
-      max-width: 600px;
-      margin: 0 auto 20px;
-    }
-    input[type="search"] {
-      flex: 1;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px 14px;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover { background: #1d4ed8; }
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 10px;
-      margin-top: 20px;
-      display: none;
-    }
-    .notice {
-      text-align: center;
-      color: #666;
-      margin-top: 10px;
-    }
+    :root{--accent:#2563eb;--ok:#10b981;--muted:#666}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;margin:18px;background:#f7f8fb;color:#111}
+    .wrap{max-width:980px;margin:0 auto}
+    h1{margin:0 0 10px;font-size:20px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px}
+    .card{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(20,20,50,0.06)}
+    .row{display:flex;gap:8px;align-items:center}
+    input[type="search"], input[type="text"]{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:14px}
+    button{padding:10px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+    button.secondary{background:#6b7280}
+    small.note{color:var(--muted);display:block;margin-top:8px}
+    iframe{width:100%;height:520px;border:0;border-radius:10px;display:none}
+    .status{margin-top:10px;padding:10px;border-radius:8px;background:#fff;display:flex;gap:8px;align-items:center;border:1px solid #eee}
+    .status .dot{width:10px;height:10px;border-radius:50%}
+    .dot.ok{background:var(--ok)}
+    .dot.warn{background:#f59e0b}
+    .dot.err{background:#ef4444}
+    .small{font-size:13px;color:var(--muted)}
+    label{font-weight:600;font-size:13px}
+    .actions{display:flex;gap:8px;margin-top:10px}
+    .foot{margin-top:12px;color:var(--muted);font-size:13px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <h1>Vidora Movie Search & Player</h1>
-  <div class="search-box">
-    <input id="searchInput" type="search" placeholder="Enter a movie or show name..." />
-    <button id="searchBtn">Search</button>
+  <div class="wrap">
+    <h1>Vidora — Search & Play (no API key)</h1>
+    <div class="grid">
+      <div class="card">
+        <div class="row" style="margin-bottom:10px">
+          <input id="searchInput" type="search" placeholder="Search movie or show (e.g. The Matrix)" />
+          <button id="openSearch">Open Search</button>
+        </div>
+
+        <div style="margin-top:8px">
+          <label for="embedTemplate">Embed template (for TMDB id embeds)</label>
+          <div class="row" style="margin-top:6px">
+            <input id="embedTemplate" type="text" value="https://vidora.su/embed/tmdb/movie?id={tmdb_id}" />
+            <button id="embedByIdBtn">Embed by TMDB ID</button>
+          </div>
+          <small class="small">Template must include <code>{tmdb_id}</code> placeholder. Adjust if Vidora uses a different path/param.</small>
+        </div>
+
+        <div style="margin-top:12px">
+          <label for="tmdbId">TMDB ID (optional)</label>
+          <div class="row" style="margin-top:6px">
+            <input id="tmdbId" type="text" placeholder="e.g. 603 for The Matrix (manual)" />
+            <button id="tryEmbedTemplate" class="secondary">Try embed</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label>Quick controls</label>
+          <div class="actions">
+            <button id="tryIframe" class="">Try embed search in iframe</button>
+            <button id="openSearchNewTab" class="secondary">Open search in new tab</button>
+          </div>
+          <small class="small">If embedding is blocked by Vidora, use "Open search in new tab".</small>
+        </div>
+
+        <div class="status" id="statusBox" role="status" aria-live="polite" style="margin-top:14px">
+          <div class="dot warn" id="statusDot"></div>
+          <div>
+            <div id="statusHeadline">Idle</div>
+            <div class="small" id="statusDetail">No action yet.</div>
+          </div>
+        </div>
+
+        <div class="foot">
+          Note: Some sites prevent embedding in iframes (security headers). If iframe fails to load, this page will detect it and provide a button to open the content directly in a new tab.
+        </div>
+      </div>
+
+      <div class="card" id="playerCard">
+        <label style="display:block;margin-bottom:8px">Player / Preview</label>
+        <iframe id="playerFrame" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="openInTab">Open current URL in new tab</button>
+          <button id="hideFrame" class="secondary">Hide frame</button>
+        </div>
+        <small class="note" id="playerUrlNote"></small>
+      </div>
+    </div>
   </div>
-  <div class="notice">Results will open in the embedded Vidora player below.</div>
-  <iframe id="vidoraFrame" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>
 
   <script>
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const frame = document.getElementById('vidoraFrame');
+    (function(){
+      const searchInput = document.getElementById('searchInput');
+      const openSearch = document.getElementById('openSearch');
+      const tryIframe = document.getElementById('tryIframe');
+      const openSearchNewTab = document.getElementById('openSearchNewTab');
+      const playerFrame = document.getElementById('playerFrame');
+      const statusDot = document.getElementById('statusDot');
+      const statusHeadline = document.getElementById('statusHeadline');
+      const statusDetail = document.getElementById('statusDetail');
+      const openInTab = document.getElementById('openInTab');
+      const hideFrame = document.getElementById('hideFrame');
+      const playerUrlNote = document.getElementById('playerUrlNote');
+      const embedTemplate = document.getElementById('embedTemplate');
+      const tmdbIdInput = document.getElementById('tmdbId');
+      const embedByIdBtn = document.getElementById('embedByIdBtn');
+      const tryEmbedTemplate = document.getElementById('tryEmbedTemplate');
 
-    function playMovie(query) {
-      // You can customize this template if Vidora uses a different embed path
-      const playerUrl = `https://vidora.su/search/${encodeURIComponent(query)}`;
-      frame.src = playerUrl;
-      frame.style.display = 'block';
-      frame.scrollIntoView({ behavior: 'smooth' });
-    }
+      let lastTriedUrl = '';
+      let iframeLoadTimer = null;
 
-    searchBtn.addEventListener('click', () => {
-      const query = searchInput.value.trim();
-      if (!query) return alert('Please enter a movie or show name.');
-      playMovie(query);
-    });
+      function setStatus(type, head, detail){
+        statusDot.className = 'dot ' + (type==='ok'?'ok':(type==='warn'?'warn':'err'));
+        statusHeadline.textContent = head;
+        statusDetail.textContent = detail;
+      }
 
-    searchInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') searchBtn.click();
-    });
+      function buildSearchUrl(query){
+        return 'https://vidora.su/search/' + encodeURIComponent(query);
+      }
+
+      function buildFromTemplate(tpl, tmdbId){
+        return tpl.replace(/\{tmdb_id\}/g, encodeURIComponent(tmdbId));
+      }
+
+      function showFrameFor(url){
+        clearTimeout(iframeLoadTimer);
+        lastTriedUrl = url;
+        playerUrlNote.textContent = url;
+        playerFrame.style.display = 'block';
+        playerFrame.src = url;
+
+        // optimistic status
+        setStatus('warn','Loading iframe...','Waiting to see if the iframe loads. If embedding is blocked you will see an error and an "Open in new tab" option.');
+
+        // If iframe fires load -> success. If not within timeout -> assume blocked.
+        let loaded = false;
+        function onLoad(){
+          loaded = true;
+          clearTimeout(iframeLoadTimer);
+          setStatus('ok','Iframe loaded','Content loaded successfully (may still be cross-origin).');
+          playerFrame.removeEventListener('load', onLoad);
+        }
+        playerFrame.addEventListener('load', onLoad);
+
+        // give it a few seconds to try loading; if it doesn't call load, assume blocked
+        iframeLoadTimer = setTimeout(()=>{
+          if(!loaded){
+            playerFrame.removeEventListener('load', onLoad);
+            // try quick check: if contentWindow is inaccessible or navigation error, we cannot detect details due to cross-origin.
+            // Present helpful fallback to open in new tab.
+            setStatus('err','Iframe failed to load or is blocked','This URL likely prevents embedding (X-Frame-Options / CSP) or the path is incorrect for embeds. Open in new tab to view.');
+          }
+        }, 3000);
+      }
+
+      openSearch.addEventListener('click', ()=>{
+        const q = searchInput.value.trim();
+        if(!q) return alert('Enter a search query.');
+        const url = buildSearchUrl(q);
+        showFrameFor(url);
+      });
+
+      tryIframe.addEventListener('click', ()=>{
+        const q = searchInput.value.trim();
+        if(!q) return alert('Enter a search query.');
+        const url = buildSearchUrl(q);
+        showFrameFor(url);
+      });
+
+      openSearchNewTab.addEventListener('click', ()=>{
+        const q = searchInput.value.trim();
+        if(!q) return alert('Enter a search query.');
+        const url = buildSearchUrl(q);
+        window.open(url, '_blank');
+      });
+
+      openInTab.addEventListener('click', ()=>{
+        if(!lastTriedUrl) return alert('No URL available to open.');
+        window.open(lastTriedUrl, '_blank');
+      });
+
+      hideFrame.addEventListener('click', ()=>{
+        playerFrame.style.display = 'none';
+        playerFrame.src = 'about:blank';
+        playerUrlNote.textContent = '';
+        setStatus('warn','Idle','Frame hidden.');
+      });
+
+      embedByIdBtn.addEventListener('click', ()=>{
+        const id = tmdbIdInput.value.trim();
+        const tpl = embedTemplate.value.trim();
+        if(!id) return alert('Enter a TMDB id in the TMDB ID field.');
+        if(!tpl || tpl.indexOf('{tmdb_id}') === -1) return alert('Embed template must include {tmdb_id} placeholder.');
+        const url = buildFromTemplate(tpl, id);
+        showFrameFor(url);
+      });
+
+      tryEmbedTemplate.addEventListener('click', ()=>{
+        const id = tmdbIdInput.value.trim();
+        const tpl = embedTemplate.value.trim();
+        if(!id){
+          // if no id provided, attempt to use last search query as id-ish input
+          const q = searchInput.value.trim();
+          if(!q) return alert('Provide either a TMDB id or a search query.');
+          // Some Vidora templates accept search terms; warn user this is guessy
+          const guessed = tpl.indexOf('{tmdb_id}') !== -1 ? tpl.replace(/\{tmdb_id\}/g, encodeURIComponent(q)) : tpl;
+          showFrameFor(guessed);
+          return;
+        }
+        const url = buildFromTemplate(tpl, id);
+        showFrameFor(url);
+      });
+
+      // set initial status
+      setStatus('warn','Idle','No action yet. Try a search or paste an embed template.');
+
+      // support Enter key for quick search
+      searchInput.addEventListener('keydown', (e)=> { if(e.key === 'Enter') tryIframe.click(); });
+
+    })();
   </script>
 </body>
 </html>
