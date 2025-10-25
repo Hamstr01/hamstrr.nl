@@ -44,12 +44,6 @@
       z-index: 10;
     }
 
-    #stuff-box {
-      bottom: 20px;
-      right: 20px;
-      background: none;
-    }
-
     #lastfm-box img {
       width: 48px;
       height: 48px;
@@ -60,29 +54,34 @@
 
     #image-gallery {
       display: flex;
-      flex-wrap: wrap;     
-      justify-content: center; 
-      gap: 1rem;     
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
       margin-top: 2rem;
     }
 
     #image-gallery img {
-      max-width: 222px; 
+      max-width: 222px;
       width: auto;
       height: auto;
-      object-fit: contain;      
+      object-fit: contain;
     }
   </style>
 </head>
-<body class="static">
-  <div class="flex justify-center mb-10 mt-10">
-    <a href="https://www.hamstrr.nl"><img src="https://i.imgur.com/itD9gOG.png" alt="Avatar" class="w-64 sm:w-80 md:w-96" />
-  </div>
+<body class="relative">
 
-<div class="flex justify-center space-x-4 sm:space-x-8 text-2xl font-semibold mb-10">
-  <a href="https://www.hamstrr.nl/old">1 >></a>
-  <a href="https://www.hamstrr.nl/old2">2 >></a>
-  <a href="https://www.hamstrr.nl/old3">3 >></a>
+  <!-- Right aligned container -->
+  <div class="absolute top-10 right-10 flex flex-col items-end space-y-6 text-2xl font-semibold">
+    <a href="https://www.hamstrr.nl">
+      <img src="https://i.imgur.com/itD9gOG.png" alt="Avatar" class="w-64 sm:w-80 md:w-96" />
+    </a>
+
+    <div class="flex flex-col items-end space-y-2">
+      <a href="https://www.hamstrr.nl/old" style="color:#000000;">1 >></a>
+      <a href="https://www.hamstrr.nl/old2" style="color:#000000;">2 >></a>
+      <a href="https://www.hamstrr.nl/old3" style="color:#000000;">3 >></a>
+    </div>
+  </div>
 
   <div id="lastfm-box">
     <h2 class="font-bold mb-1">Last.fm</h2>
