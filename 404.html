@@ -1,149 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>hamstrr :: 404</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-<style>
-html, body {
-  cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85612'), auto;
-}
-a { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), pointer; }
-textarea, input[type="text"], input[type="password"] { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), text; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hamstrr</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body::before {
+      content: "";
+      background: url('https://i.imgur.com/eK1pTIG.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -2;
+    }
+    body::after {
+      content: "";
+      background: rgba(0, 0, 0, 0);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+    body {
+      cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23175'), auto;
+    }
 
-body {
-  font-family: 'Orbitron', sans-serif;
-  background: url("https://i.imgur.com/kMkcdYw.jpeg") right center fixed;
-  background-size: 110%;
-  color: #111;
-  overflow: hidden;
-  height: 100vh;
-  transition: background-position 0.1s ease-out;
-}
+    #lastfm-box {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      color: #000;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      width: 250px;
+      background: none;
+      z-index: 10;
+    }
 
-.window {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  border-radius: 12px;
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  min-width: 240px;
-  min-height: 120px;
-  overflow: hidden;
-}
+    #stuff-box {
+      bottom: 20px;
+      right: 20px;
+      background: none;
+    }
 
-.title-bar {
-  background: rgba(255, 255, 255, 0.2);
-  color: #111;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 0.4rem 0.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
-  letter-spacing: 1px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 12px 12px 0 0;
-  cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), pointer;
-}
-.title-bar:active { cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85626'), grabbing; }
+    #lastfm-box img {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      margin-top: 5px;
+    }
 
-.title-controls { display: flex; gap: 0.25rem; }
-.title-controls div {
-  width: 18px; height: 18px;
-  border: 1px solid rgba(0,0,0,0.2);
-  background: rgba(255,255,255,0.6);
-  color: #111;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; cursor: pointer; user-select: none;
-  transition: background 0.2s, box-shadow 0.2s;
-  border-radius: 4px;
-}
-.title-controls div:hover { background: rgba(255,255,255,0.8); box-shadow: 0 0 6px rgba(0,0,0,0.2); }
-.title-controls .close {
-  background: linear-gradient(180deg, #ff4444, #aa1111);
-  border: 1px solid #ff2222;
-  color: #fff; font-weight: bold;
-  box-shadow: 0 0 8px rgba(255, 50, 50, 0.6);
-}
+    #image-gallery {
+      display: flex;
+      flex-wrap: wrap;     
+      justify-content: center; 
+      gap: 1rem;     
+      margin-top: 2rem;
+    }
 
-.panel { padding: 0.75rem; height: calc(100% - 40px); box-sizing: border-box; display: flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; }
-.panel h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-.panel p { font-size: 0.9rem; margin-bottom: 1rem; }
-
-.resizer { width: 12px; height: 12px; background: rgba(0,0,0,0.2); position: absolute; right: 2px; bottom: 2px; cursor: url('http://www.rw-designer.com/cursor-extern.php?id=85622'), se-resize; border-radius: 3px; }
-</style>
+    #image-gallery img {
+      max-width: 222px; 
+      width: auto;
+      height: auto;
+      object-fit: contain;      
+    }
+  </style>
 </head>
-<body>
-
-<div class="window" id="error-window" style="top: 200px; left: 200px; width:500px; height:300px; z-index: 1;">
-  <div class="title-bar">
-    <div>> hamstrr :: error</div>
-    <div class="title-controls"><div class="close">X</div></div>
+<body class="static">
+  <div class="flex justify-center mb-10 mt-10">
+    <a href="https://www.hamstrr.nl"><img src="https://i.imgur.com/itD9gOG.png" alt="Avatar" class="w-64 sm:w-80 md:w-96" />
   </div>
-  <div class="panel">
-    <h1>> 404 :: Not Found</h1>
-    <p>The page you’re looking for doesn’t exist.</p>
-    <a href="https://hamstrr.nl" class="px-4 py-2 bg-white/30 rounded-lg shadow hover:shadow-lg hover:bg-white/50 transition">Go Home</a>
+
+<div class="flex justify-center space-x-4 sm:space-x-8 text-2xl font-semibold mb-10">
+  <a href="https://www.hamstrr.nl/">what the hell are u tryna find bruh go back home or something >></a>
+
+  <div id="lastfm-box">
+    <h2 class="font-bold mb-1">Last.fm</h2>
+    <div id="lastfm-track">Loading…</div>
   </div>
-  <div class="resizer"></div>
-</div>
 
-<script>
-let topZ = 1;
+  <script>
+    async function fetchLastFM() {
+      try {
+        const apiKey = "13ff6f8eddf54fc46ce36cb267bb6d9b";
+        const user = "Hamstr01";
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=1`;
 
-document.addEventListener("mousemove", e => {
-  const { innerWidth, innerHeight } = window;
-  const x = (e.clientX / innerWidth - 0.5) * 40;
-  const y = (e.clientY / innerHeight - 0.5) * 40;
-  document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
-});
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
 
-function makeDraggable(windowEl) {
-  const bar = windowEl.querySelector(".title-bar");
-  let offsetX, offsetY, isDragging = false;
-  bar.addEventListener("mousedown", e => {
-    isDragging = true;
-    offsetX = e.clientX - windowEl.offsetLeft;
-    offsetY = e.clientY - windowEl.offsetTop;
-    windowEl.style.zIndex = ++topZ;
-  });
-  document.addEventListener("mousemove", e => {
-    if (!isDragging) return;
-    windowEl.style.left = e.clientX - offsetX + "px";
-    windowEl.style.top = e.clientY - offsetY + "px";
-  });
-  document.addEventListener("mouseup", () => { isDragging = false; });
-}
+        if (!data?.recenttracks?.track?.length) throw new Error("No track data found");
 
-function makeResizable(windowEl) {
-  const resizer = windowEl.querySelector(".resizer");
-  let startX, startY, startWidth, startHeight, isResizing = false;
-  resizer.addEventListener("mousedown", e => {
-    isResizing = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startWidth = parseInt(document.defaultView.getComputedStyle(windowEl).width, 10);
-    startHeight = parseInt(document.defaultView.getComputedStyle(windowEl).height, 10);
-    windowEl.style.zIndex = ++topZ;
-    e.preventDefault();
-  });
-  document.addEventListener("mousemove", e => {
-    if (!isResizing) return;
-    const newWidth = startWidth + (e.clientX - startX);
-    const newHeight = startHeight + (e.clientY - startY);
-    windowEl.style.width = newWidth + "px";
-    windowEl.style.height = newHeight + "px";
-  });
-  document.addEventListener("mouseup", () => { isResizing = false; });
-}
+        const track = data.recenttracks.track[0];
+        const name = track?.name ?? "Unknown";
+        const artist = track?.artist?.["#text"] ?? "Unknown";
+        const album = track?.album?.["#text"] ?? "";
+        const img = track?.image?.length ? track.image[track.image.length - 1]["#text"] : "";
+        const nowPlaying = track?.["@attr"]?.nowplaying;
 
-makeDraggable(document.getElementById("error-window"));
-makeResizable(document.getElementById("error-window"));
-</script>
+        const container = document.getElementById("lastfm-track");
+        container.innerHTML = `
+          <div>
+            <strong>${name}</strong> by ${artist}<br>
+            <span>${nowPlaying ? "listening now!" : "last played"}</span>
+            ${album ? `<div>Album: ${album}</div>` : ""}
+            ${img ? `<img src="${img}" alt="Album Art">` : ""}
+          </div>
+        `;
+      } catch (err) {
+        console.error("Error fetching Last.fm:", err);
+        document.getElementById("lastfm-track").innerHTML =
+          "<span>Could not load track. (See console for details.)</span>";
+      }
+    }
+    fetchLastFM();
+    setInterval(fetchLastFM, 5000);
+  </script>
 </body>
 </html>
