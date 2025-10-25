@@ -44,12 +44,6 @@
       z-index: 10;
     }
 
-    #stuff-box {
-      bottom: 20px;
-      right: 20px;
-      background: none;
-    }
-
     #lastfm-box img {
       width: 48px;
       height: 48px;
@@ -74,24 +68,27 @@
     }
   </style>
 </head>
-<body class="static">
-  <div class="flex justify-center mb-10 mt-10">
-    <a href="https://www.hamstrr.nl"><img src="https://i.imgur.com/itD9gOG.png" alt="Avatar" class="w-64 sm:w-80 md:w-96" />
-  </div>
+<body class="relative">
 
-  <div class="flex justify-center space-x-4 sm:space-x-8 text-2xl font-semibold mb-10">
-    <a href="https://www.tiktok.com/@hamstrrrrrr" style="color:#000000;">tiktok</a>
-    <a href="https://www.youtube.com/@SE4.productions" style="color:#000000;">youtube</a>
-    <a href="https://steamcommunity.com/id/hamstrr" style="color:#000000;">steam</a>
-    <a href="https://www.discord.com/users/1262468528250818590" style="color:#000000;">discord</a>
-    <a href="https://last.fm/user/Hamstr01" style="color:#000000;">last.fm</a>
-    <a href="https://www.discogs.com/user/hamterrrrr/collection" style="color:#000000;">discogs</a>
-  </div>
-<div class="flex justify-center space-x-4 sm:space-x-8 text-2xl font-semibold mb-10">
-  <a href="https://www.hamstrr.nl/coolbands">cool bands >></a>
+  <div class="absolute top-10 right-10 flex flex-col items-end space-y-4 text-2xl font-semibold">
+    <a href="https://www.hamstrr.nl">
+      <img src="https://i.imgur.com/itD9gOG.png" alt="Avatar" class="w-64 sm:w-80 md:w-96" />
+    </a>
 
-<div class="flex justify-center space-x-4 sm:space-x-8 text-2xl font-semibold mb-10">
-  <a href="https://www.hamstrr.nl/archive">website archive >></a>
+    <div class="flex flex-col items-end space-y-2">
+      <a href="https://www.tiktok.com/@hamstrrrrrr" style="color:#000000;">tiktok</a>
+      <a href="https://www.youtube.com/@SE4.productions" style="color:#000000;">youtube</a>
+      <a href="https://steamcommunity.com/id/hamstrr" style="color:#000000;">steam</a>
+      <a href="https://www.discord.com/users/1262468528250818590" style="color:#000000;">discord</a>
+      <a href="https://last.fm/user/Hamstr01" style="color:#000000;">last.fm</a>
+      <a href="https://www.discogs.com/user/hamterrrrr/collection" style="color:#000000;">discogs</a>
+    </div>
+
+    <div class="flex flex-col items-end space-y-2 text-lg">
+      <a href="https://www.hamstrr.nl/coolbands" style="color:#000000;">cool bands >></a>
+      <a href="https://www.hamstrr.nl/archive" style="color:#000000;">website archive >></a>
+    </div>
+  </div>
 
   <div id="lastfm-box">
     <h2 class="font-bold mb-1">Last.fm</h2>
