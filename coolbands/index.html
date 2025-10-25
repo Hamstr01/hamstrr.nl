@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hamstrr</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body::before {
+      content: "";
+      background: url('https://i.imgur.com/pCkycCn.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -2;
+    }
+    body::after {
+      content: "";
+      background: rgba(0, 0, 0, 0);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+    body {
+      cursor: url('http://www.rw-designer.com/cursor-extern.php?id=23175'), auto;
+    }
+
+    #lastfm-box {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      color: #000;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      width: 250px;
+      background: none;
+      z-index: 10;
+    }
+
+    #stuff-box {
+      bottom: 20px;
+      right: 20px;
+      background: none;
+    }
+
+    #lastfm-box img {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      margin-top: 5px;
+    }
+
+    #image-gallery {
+      display: flex;
+      flex-wrap: wrap;     
+      justify-content: center; 
+      gap: 1rem;     
+      margin-top: 2rem;
+    }
+
+    #image-gallery img {
+      max-width: 222px; 
+      width: auto;
+      height: auto;
+      object-fit: contain;      
+    }
+  </style>
+</head>
+<body class="static">
+  <div class="flex justify-center mb-10 mt-10">
+    <img src="https://i.imgur.com/itD9gOG.png" alt="Avatar" class="w-64 sm:w-80 md:w-96" />
+  </div>
+
+  <h2 class="text-center text-3xl font-serif">cool bands</h2>
+  <div id="image-gallery" class="max-w-6xl mx-auto flex flex-wrap justify-center gap-4">
+    <img src="https://i.imgur.com/QrUqQmL.jpeg">
+    <img src="https://i.imgur.com/TvSEyj5.png">
+    <img src="https://i.imgur.com/SbLqU5r.png">
+    <img src="https://i.imgur.com/rQYuwL7.png">
+    <img src="https://i.imgur.com/pnJQ6Tp.png">
+    <img src="https://i.imgur.com/49WVh2J.png">
+    <img src="https://i.imgur.com/oZTL0Fp.png">
+    <img src="https://i.imgur.com/h2kL43k.jpeg">
+    <img src="https://i.imgur.com/CvGe4lb.png">
+    <img src="https://i.imgur.com/MofAVGv.jpeg">
+  </div>
+
+  <img src="https://web.archive.org/web/20090728014846im_/http://de.geocities.com/ursulaotten/smiley-92.gif" alt="Decor Top Left"
+       class="absolute top-10 left-10 w-64 rounded-lg" />
+  <img src="https://blob.gifcities.org/gifcities/4R4DS27PWC76YOL2EMLNYTHTJIPJNV5M.gif" alt="Decor Top Left"
+       class="absolute top-64 left-5 w-64 rounded-lg" />
+  <img src="https://blob.gifcities.org/gifcities/3N3EABLDHCPBUCTVL4RG7E25TJODWYNB.gif" alt="Decor Top Left"
+       class="absolute top-10 right-5 w-64 rounded-lg" />
+  <img src="https://blob.gifcities.org/gifcities/YNZF2GXGAR4JIFK5FZ2NBZE65J7TORHE.gif" alt="Decor Top Left"
+       class="absolute top-64 left-5 w-64 rounded-lg" />
+
+  <div id="lastfm-box">
+    <h2 class="font-bold mb-1">Last.fm</h2>
+    <div id="lastfm-track">Loading…</div>
+  </div>
+
+  <script>
+    async function fetchLastFM() {
+      try {
+        const apiKey = "13ff6f8eddf54fc46ce36cb267bb6d9b";
+        const user = "Hamstr01";
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=1`;
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
+
+        if (!data?.recenttracks?.track?.length) throw new Error("No track data found");
+
+        const track = data.recenttracks.track[0];
+        const name = track?.name ?? "Unknown";
+        const artist = track?.artist?.["#text"] ?? "Unknown";
+        const album = track?.album?.["#text"] ?? "";
+        const img = track?.image?.length ? track.image[track.image.length - 1]["#text"] : "";
+        const nowPlaying = track?.["@attr"]?.nowplaying;
+
+        const container = document.getElementById("lastfm-track");
+        container.innerHTML = `
+          <div>
+            <strong>${name}</strong> by ${artist}<br>
+            <span>${nowPlaying ? "listening now!" : "last played"}</span>
+            ${album ? `<div>Album: ${album}</div>` : ""}
+            ${img ? `<img src="${img}" alt="Album Art">` : ""}
+          </div>
+        `;
+      } catch (err) {
+        console.error("Error fetching Last.fm:", err);
+        document.getElementById("lastfm-track").innerHTML =
+          "<span>Could not load track. (See console for details.)</span>";
+      }
+    }
+    fetchLastFM();
+    setInterval(fetchLastFM, 5000);
+  </script>
+</body>
+</html>
